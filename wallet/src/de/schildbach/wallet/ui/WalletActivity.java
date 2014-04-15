@@ -800,7 +800,23 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
 
 			config.disarmBackupReminder();
 
-			// XXX
+			final DialogBuilder dialog = new DialogBuilder(this);
+			final StringBuilder message = new StringBuilder();
+			message.append(getString(R.string.restore_wallet_dialog_success));
+			message.append("\n\n");
+			message.append(getString(R.string.import_keys_dialog_success_reset));
+			dialog.setMessage(message);
+			dialog.setPositiveButton(R.string.import_keys_dialog_button_reset_blockchain, new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(final DialogInterface dialog, final int id)
+				{
+					getWalletApplication().resetBlockchain();
+					finish();
+				}
+			});
+			dialog.setNegativeButton(R.string.button_dismiss, null);
+			dialog.show();
 
 			log.info("restored wallet from: '" + file + "'");
 		}
